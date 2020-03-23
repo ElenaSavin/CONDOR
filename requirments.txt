@@ -1,2 +1,3 @@
 sevenbridges
 os
+boto3
