@@ -9,8 +9,21 @@ port = 443
 es = Elasticsearch([{'host': host, 'port': port, 'use_ssl': True}])
 
 
+# returns the uuid of the file
+def getuuid():
+    res_json = es.search(index="tcga_v2", body={
+        "from": 0, "size": 1,
+        "query": {
+            "term": {
+                "processed": False
+            }
+        }
+    })
+    print(res_json['hits']['hits'][0]['_source']['id'])
+    
+    
 # returns the name of the next unprocessed file.
-def get():
+def getname():
     res_json = es.search(index="tcga_v2", body={
         "from": 0, "size": 1,
         "query": {
@@ -30,22 +43,26 @@ def updateProcess(fileId):
 
 
 # updating uploading date
-def updateUpload(fileId):
+def updateUpload(fileuuid):
     current_datetime = datetime.now()
     es.update(index='tcga_v2',
-              id=fileId,
+              id=fileuuid,
               body={"doc": {"uploaded": current_datetime}})
 
 
 '''
 receive input from command line
-param 1: name of function
-param 2: only for updateProcess - the file id
+1: name of function
+2: for updateProcess - the file uuid
 '''
 if __name__ == "__main__":
     function = sys.argv[1]
-    if function == "get":
-        get()
+    if function == "getname":
+        getname()
+    if function == "getuuid":
+        getuuid()
     if function == "updateProcess":
-        fileId = sys.argv[2]
-        updateProcess(fileId)
+        fileuuid = sys.argv[2]
+        updateProcess(fileuuid)
+        
+ 
