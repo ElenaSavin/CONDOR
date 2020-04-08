@@ -4,7 +4,9 @@ import sevenbridges as sbg
 import sys
 
 # cgc credentials
-api = sbg.Api(url='https://cgc-api.sbgenomics.com/v2', token='655963abb0424c3ca5bab03e16e0465c')
+url = os.environ['url_tcga_enpoint'],
+token = os.environ['token_tcga']
+api = sbg.Api(url, token)
 
 # project details
 project_name = 'all_fastq'
