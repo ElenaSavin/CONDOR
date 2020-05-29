@@ -14,5 +14,5 @@ RUN pip3 install -r ./requirements.txt
 ENV aws_access_key_id=AKIA2YI2JIMRDMA3D4X5
 ENV aws_secret_access_key=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
 
-RUN chmod +x process.sh \
-./process.sh
+#Run the pipeline
+CMD ["./process.sh"]
