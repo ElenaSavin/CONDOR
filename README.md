@@ -31,20 +31,25 @@ to use a software other than MiXCR, find it on dockerhub and when creating the d
 2. Update timestamp and size of this file on elasticsearch and mark as "started process: true" (es_api.py).
 3. Download the fastq file into the container (download_fastq.py)
 4. Untar file 
-'''
+
+```
 tar -xvzf <file_name>.tar.gz
-'''
-5. Run mixcr
-6. Update timestamp of this file on elasticsearch and mark as "processed: true"
-7. Upload mixcr output to S3.
-8. Mark "uploaded: true" on elasticsearch
+```
+
+5. Run mixcr (https://mixcr.readthedocs.io/en/master/quickstart.html)
+```
+mixcr analyze shotgun -s hsa --starting-material rna *1.fastq *2.fastq $fileuuid/$fileuuid
+```
+
+6. Update timestamp of this file on elasticsearch and mark as "processed: true" (es_api.py)
+7. Upload mixcr output to S3. (s3_uploader.py).
+8. Mark "uploaded: true" on elasticsearch (es_api.py).
 9. Deleate all files from container.
 
 
 ### Hourly execute cron task in a us-east-1 virtual machine containing a sqlite db:
+script - s3_sync_delete.sh
 -	Mount output files to vm.
 -	Update db with data from output files.
 -	Delete the files from s3 bucket.
 -	Turn off the vm.
-
-
