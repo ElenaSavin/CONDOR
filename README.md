@@ -4,10 +4,15 @@
 
 ## Pre - processing
 1. Download TCGA metadata:
-   Enter...
 2. create a bucket on S3.
 3. create an elasticsearch index using the py script.
-   fields:
+   fields: uuid: item uuid,
+           filename": full file name,
+           started_process: True/False,
+           start_time: timestamp,
+           processed: True/False,
+           uploaded: True/False,
+           done_time: timestamp
 4. start a EC2 simple vm and create a SQL db on it, containing the output fields and a python script for insert
 5. create a cron task, for time hh:02 repeating n times a day on the vm - to sync with S3, start the script for insert, empty the s3
 6. create a cron task on your computer starting the vm on hh:00 n times a day.
@@ -34,4 +39,5 @@
 
 ## Note:
 to use a software other than MiXCR, find it on dockerhub and when creating the docker image, use it as base image instead.
+
 ! Make sure you have all the needed dependencies !
