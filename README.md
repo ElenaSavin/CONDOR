@@ -25,7 +25,7 @@ to use a software other than MiXCR, find it on dockerhub and when creating the d
 7. Create a cron task on your computer starting the vm on hh:00 n times a day.
 * Make sure you have AWS CLI and eksctl installed on your machine.
 
-## Cluster configuration - spotnodes.yaml:
+## Cluster configuration:
 1. Create a new kubernetes cluster (https://eksctl.io/usage/creating-and-managing-clusters/)
 
 ```
