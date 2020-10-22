@@ -1,0 +1,4 @@
+sevenbridges-python
+boto3
+elasticsearch>=6.0.0,<7.0.0
+requests_aws4auth
