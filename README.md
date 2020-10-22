@@ -59,7 +59,7 @@ mixcr analyze shotgun -s hsa --starting-material rna *1.fastq *2.fastq $fileuuid
 
 ### Hourly execute cron task in a us-east-1 virtual machine containing a sqlite db:
 script - s3_sync_delete.sh and sql_db.py
--	Mount output files to vm.
--	Update db with data from output files.
--	Delete the files from s3 bucket.
--	Turn off the vm.
+1. Mount output files to vm.
+2. Update db with data from output files.
+3. Delete the files from s3 bucket.
+4. Turn off the vm.
