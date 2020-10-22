@@ -10,14 +10,13 @@ import random as rand
 
 choice = rand.randint(0, 9999)
 
-host = 'search-tcga-refs-pmqkhf65ypmv3tvfewkatun6vu.us-east-1.es.amazonaws.com'
+#expexting AWS host
+host = '<insert host>.us-east-1.es.amazonaws.com'
 region = 'us-east-1'
 
 service = 'es'
-aws_access_key_id= 'AKIA2YI2JIMRDMA3D4X5'
-aws_secret_access_key = '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'
-#aws_access_key_id = os.environ['aws_access_key_id'],
-#aws_secret_access_key = os.environ['aws_secret_access_key']
+aws_access_key_id = os.environ['aws_access_key_id'],
+aws_secret_access_key = os.environ['aws_secret_access_key']
 credentials = boto3.Session().get_credentials()
 awsauth = AWS4Auth(aws_access_key_id, aws_secret_access_key, region, service)
 
