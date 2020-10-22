@@ -23,6 +23,16 @@ to use a software other than MiXCR, find it on dockerhub and when creating the d
 5. Start a EC2 simple vm and create a SQL database on it, containing the output fields and a python script for insert (sql_db.py)
 6. Create a cron task, for time hh:02 repeating n times a day on the vm - to sync with S3, start the script for insert, empty the s3 - the script (s3_sync_delete.sh)
 7. Create a cron task on your computer starting the vm on hh:00 n times a day.
+* Make sure you have AWS CLI and eksctl installed on your machine.
+
+## Cluster configuration - spotnodes.yaml:
+1. Create a new kubernetes cluster
+
+```
+eksctl create cluster --name myCluster --without-nodegroup --zones=us-east-1a,us-east-1b,us-east-1d
+```
+2. Create a nodegroup with only spot nodes - spotnodes.yaml.
+   https://eksworkshop.com/beginner/150_spotworkers/workers 
 
 
 ## Workflow - process.sh  
@@ -47,7 +57,8 @@ mixcr analyze shotgun -s hsa --starting-material rna *1.fastq *2.fastq $fileuuid
 9. Deleate all files from container.
 
 
-## Update DB -  s3_sync_delete.sh
+### Hourly execute cron task in a us-east-1 virtual machine containing a sqlite db:
+script - s3_sync_delete.sh and sql_db.py
 -	Mount output files to vm.
 -	Update db with data from output files.
 -	Delete the files from s3 bucket.
