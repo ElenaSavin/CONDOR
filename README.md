@@ -1,4 +1,4 @@
-![CONDOR logo](https://github.com/ElenaSavin/CONDOR/blob/master/condor.png?raw=true = 200x100)
+![CONDOR logo](https://github.com/ElenaSavin/CONDOR/blob/master/condor.png?raw=true =200x100)
 
 # CONDOR Workflow suggestion
 ### Note:
