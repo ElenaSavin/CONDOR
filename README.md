@@ -12,7 +12,7 @@ to use a software other than MiXCR, find it on dockerhub and when creating the d
 2. Download the metadata manifest file from your project.
 3. Create a bucket on S3.
 4. Start a ElasticSearch service on AWS.
-4. Create an elasticsearch index using the es_index.py script.
+4. Create an elasticsearch index using the es_index.py script. (https://elasticsearch-py.readthedocs.io/en/master/api.html)
    fields: uuid: item uuid,
            filename": full file name,
            started_process: True/False,
@@ -26,13 +26,13 @@ to use a software other than MiXCR, find it on dockerhub and when creating the d
 * Make sure you have AWS CLI and eksctl installed on your machine.
 
 ## Cluster configuration - spotnodes.yaml:
-1. Create a new kubernetes cluster
+1. Create a new kubernetes cluster (https://eksctl.io/usage/creating-and-managing-clusters/)
 
 ```
 eksctl create cluster --name myCluster --without-nodegroup --zones=us-east-1a,us-east-1b,us-east-1d
 ```
 2. Create a nodegroup with only spot nodes - spotnodes.yaml.
-   https://eksworkshop.com/beginner/150_spotworkers/workers 
+   (https://eksworkshop.com/beginner/150_spotworkers/workers) 
 
 
 ## Workflow - process.sh  
