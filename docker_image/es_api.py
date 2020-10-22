@@ -8,8 +8,6 @@ from requests_aws4auth import AWS4Auth
 import boto3
 import random as rand
 
-choice = rand.randint(0, 9999)
-
 #expexting AWS host
 host = '<insert host>.us-east-1.es.amazonaws.com'
 region = 'us-east-1'
