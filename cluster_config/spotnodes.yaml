@@ -1,0 +1,24 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: spotpods 
+  region: us-east-1
+nodeGroups:
+  - name: ng-spot
+    labels:
+      lifecycle: Ec2Spot
+    taints:
+      spotInstance: true:PreferNoSchedule
+    minSize: 3
+    maxSize: 5
+    desiredCapacity: 4
+    instancesDistribution: # At least two instance types should be specified
+      instanceTypes:
+        - c5.9xlarge
+        - inf1.6xlarge
+        - c5d.9xlarge
+        - c5n.9xlarge
+      onDemandBaseCapacity: 0
+      onDemandPercentageAboveBaseCapacity: 0 # all the instances will be spot instances
+      spotInstancePools: 2
+      SpotAllocationStrategy: lowes-price
