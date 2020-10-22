@@ -9,9 +9,9 @@ nodeGroups:
       lifecycle: Ec2Spot
     taints:
       spotInstance: true:PreferNoSchedule
-    minSize: 3
-    maxSize: 5
-    desiredCapacity: 4
+    minSize: 50
+    maxSize: 100
+    desiredCapacity: 100
     instancesDistribution: # At least two instance types should be specified
       instanceTypes:
         - c5.9xlarge
