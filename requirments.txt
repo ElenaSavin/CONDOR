@@ -1,3 +1,0 @@
-sevenbridges-python
-boto3
-elasticsearch
