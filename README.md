@@ -1,6 +1,7 @@
 ![CONDOR logo](https://github.com/ElenaSavin/CONDOR/blob/master/condor.png)
 
-# CONDOR Workflow suggestion
+# CONDOR - Cloud Operations Niche, Docker Orchestration for Research 
+# Workflow suggestion
 ### Note:
 to use a software other than MiXCR, find it on dockerhub and when creating the docker image, use it as a base image instead.
 
