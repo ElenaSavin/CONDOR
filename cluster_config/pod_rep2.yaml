@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: c59v2
+  labels:
+    app: mixcr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mixcr
+  template:
+    metadata:
+      labels:
+        app: mixcr
+    spec:
+      containers:
+      - name: try
+        image: <docker image address>
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "15500m"
+
