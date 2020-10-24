@@ -22,4 +22,3 @@ spec:
         resources:
           requests:
             cpu: "15500m" 
-
