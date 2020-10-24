@@ -5,7 +5,7 @@ metadata:
   labels:
     app: mixcr
 spec:
-  replicas: 2
+  replicas: 200
   selector:
     matchLabels:
       app: mixcr
@@ -15,10 +15,10 @@ spec:
         app: mixcr
     spec:
       containers:
-      - name: tworep
-        image: <docker image address>
+      - name: mixcr_twopods
+        image: <your_docker_image>
         ports:
         - containerPort: 80
         resources:
           requests:
-            cpu: "15500m" 
+            cpu: "16000m"
