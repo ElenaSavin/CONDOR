@@ -1,7 +1,7 @@
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
-  name: spotpods 
+  name: final
   region: us-east-1
 nodeGroups:
   - name: ng-spot
@@ -12,13 +12,14 @@ nodeGroups:
     minSize: 50
     maxSize: 100
     desiredCapacity: 100
+    volumeSize: 150
+    volumeType: gp2
     instancesDistribution: # At least two instance types should be specified
       instanceTypes:
         - c5.9xlarge
-        - inf1.6xlarge
         - c5d.9xlarge
         - c5n.9xlarge
       onDemandBaseCapacity: 0
       onDemandPercentageAboveBaseCapacity: 0 # all the instances will be spot instances
-      spotInstancePools: 2
+      spotInstancePools: 3
       SpotAllocationStrategy: lowes-price
