@@ -1,21 +1,25 @@
 import Bio.SeqIO
 import hashlib
+import csv
 
-# Target sequences (replace with your actual sequences)
-target_sequences = [
-    "CAVMDSNYQLIW",  # Example 1
-    "CAVRDSNYQLIW",
-    "CAVMDSSYKLIF",
-    "CAVNQAGTALIF",
-    "CAVNTGGFKTIF",
-    "VPRARKTPSIPA"
-    # ... Add your other target sequences
-]
+def get_target_sequences(seq_file):
+# Open the CSV file in read mode
+  with open(seq_file, "r") as csvfile:
+    # Create a CSV reader object
+    csv_reader = csv.reader(csvfile)
 
-# Pre-calculate SHA-256 hashes of target sequences
-target_hashes = {hashlib.sha256(seq.encode()).hexdigest(): seq for seq in target_sequences}
+    # Read the header row
+    header = next(csv_reader)
+
+    # Extract the first column values into a list
+    sequences = [row[0] for row in csv_reader]
+    frequencies = [row[1] for row in csv_reader]
+  # Print the first column values
+    hashed_sequences = {hashlib.sha256(seq.encode()).hexdigest(): seq for seq in sequences}
+  return(sequences, hashed_sequences)
 
 def translate_frames(file_id):
+  print(f"translating file id: {file_id}")
   for read in Bio.SeqIO.parse(file_id, "fastq"):
     sequence = str(read.seq.complement())
     for frame in range(3):
@@ -28,14 +32,13 @@ def translate_frames(file_id):
         amino_acid = str(Bio.Seq.Seq(codon).translate())  # Convert to string
         translation.append(amino_acid)
       
-      print(f">Frame {frame + 1}")
       translated_read = ("".join(translation))  # Join strings
 
-      encode_compare(translated_read, read, frame, target_sequences)
+      encode_compare(translated_read, read, frame)
 
-def encode_compare(translated_read, read, frame, target_sequences):
-  substrings = []
-  hashes = {}
+def encode_compare(translated_read, read, frame):
+  target_sequences, target_hashes = get_target_sequences("top_1000.csv")
+
   for substring in target_sequences:
     substring_length = len(substring)
     for i in range(len(translated_read) - substring_length + 1):

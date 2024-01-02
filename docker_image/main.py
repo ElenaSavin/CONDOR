@@ -1,42 +1,61 @@
-from os import read, system
+from os import remove, system
+import os
 import requests
 import json
-from cdr3 import translate_frames
+import time
+from cdr3 import translate_frames, get_target_sequences
 
 #token to secured data 
 token_file = "token.txt"
 
+def download(data_endpt, token_string, file_id):
+  params = {"gencode": ["BRCA1", "BRCA2"]}
+  response = requests.post(data_endpt, 
+                          data = json.dumps(params), 
+                          headers = {
+                            "Content-Type": "application/json",
+                            "X-Auth-Token": token_string
+                            })
+
+  file_name = f"files/brca_{file_id}.bam"
+  
+  # Create the "files" directory if it doesn't exist
+  os.makedirs("files", exist_ok=True)  # Create directory only if needed
+
+  with open(file_name, "wb") as output_file:
+    output_file.write(response.content)
+      
+  system(f"samtools bam2fq files/brca_{file_id}.bam > files/brca_{file_id}.fastq")
+  
 #read the file ids from file
-def download(manifest):
+def match(manifest):
   with open(manifest, "r") as file:
     for line in file:
       file_id = line.strip() 
       data_endpt = f"https://api.gdc.cancer.gov/slicing/view/{file_id}"
       try: 
-        open(f"brca_{file_id}.fastq")
+        open(f"files/brca_{file_id}.fastq")
         print(f"File: {file_id} exists, Skipping Download")
       except FileNotFoundError:
         print(f"Downloading file id: {file_id}")
         with open(token_file,"r") as token:
           token_string = str(token.read().strip())
-
-        params = {"gencode": ["BRCA1", "BRCA2"]}
-
-        response = requests.post(data_endpt, 
-                                data = json.dumps(params), 
-                                headers = {
-                                  "Content-Type": "application/json",
-                                  "X-Auth-Token": token_string
-                                  })
-
-        file_name = f"brca_{file_id}.bam"
-
-        with open(file_name, "wb") as output_file:
-          output_file.write(response.content)
+        try:
+          download(data_endpt, token_string, file_id)
+          translate_frames(f"files/brca_{file_id}.fastq")
+        except requests.exceptions.ConnectionError as e:
+          if "Temporary failure in name resolution" in str(e):
+            print(f"Temporary DNS resolution error. File {file_id} was not downloaded")
             
-        system(f"samtools bam2fq brca_{file_id}.bam > brca_{file_id}.fastq")      
-      translate_frames(f"brca_{file_id}.fastq")   
-
+          # Code to retry the operation (e.g., call the function again)
+          else:
+            print("A different connection error occurred:", e)
+             
+        try:
+          remove(f"files/brca_{file_id}.bam")
+        except FileNotFoundError:
+          print("File not found.")
+ 
 if __name__ == "__main__":
     manifest = "brca.txt"  # Replace with your actual FASTQ file name
-    download(manifest)
+    match(manifest)
